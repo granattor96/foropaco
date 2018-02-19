@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     }
     private lateinit var UsuariosGET:ArrayList<Users>
     private lateinit var ThemesGET:ArrayList<Temas>
-    private lateinit var original:ArrayList<Temas>
     private val foroPacoUsersGet by lazy{
         foropacoUsersGet.create()
     }
@@ -39,23 +38,11 @@ class MainActivity : AppCompatActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { /*games ->
-                          this.gamesRes = games.applist.apps as ArrayList<Game>
-                          this.original= ArrayList<Game>()
-                          this.original.addAll(gamesRes)
-                          showGames()
-                          progressBar.visibility = View.GONE
-                        */
-                            temas ->
-                            this.ThemesGET= temas.themes.temas as ArrayList<Temas>
-                            this.original= ArrayList<Temas>()
-                            this.original.addAll(ThemesGET)
+                        { themmes ->
+                            this.ThemesGET = themmes.themes.temas as ArrayList<Temas>
                             showTemas()
-
-
                         },
                         { error ->
-                            //progressBar.visibility = View.GONE
                             Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
                             Log.e(TAG,error.message)
                         }
@@ -64,6 +51,6 @@ class MainActivity : AppCompatActivity() {
     private fun showTemas(){
         Log.d(TAG,"temas")
         Log.d(TAG,ThemesGET.get(0).temas[0].toString())
-        Log.d((TAG,ThemesGET.get(ThemesGET.size-1).toString())
+        Log.d(TAG,ThemesGET.get(ThemesGET.size-1).toString())
     }
 }
