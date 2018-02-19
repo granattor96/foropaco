@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         val TAG="**Darkness**"
     }
     private lateinit var Temas:ArrayList<Tema>
-    private val foroPacoThemesGet by lazy {
+    private val foroApiService by lazy {
         apiServiceGet.create()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,13 +25,12 @@ class MainActivity : AppCompatActivity() {
         loadUsers()
     }
     private fun loadUsers(){
-        foroPacoThemesGet.getData()
+        foroApiService.user()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { respuesta ->
                             Log.d(TAG,respuesta.users.toString())
-
                         },
                         { error ->
                             Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
@@ -39,9 +38,5 @@ class MainActivity : AppCompatActivity() {
                         }
                 )
     }
-    private fun showTemas(){
-        Log.d(TAG,"temas")
-        Log.d(TAG,Temas.get(0)._id)
-        Log.d(TAG,Temas.get(Temas.size-1).toString())
-    }
+
 }
