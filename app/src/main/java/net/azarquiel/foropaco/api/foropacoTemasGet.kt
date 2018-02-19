@@ -20,7 +20,7 @@ interface foropacoTemasGet {
             val retrofit = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .baseUrl("http://localhost/")
+                    .baseUrl("http://172.19.114.2/foroslim/")
                     .build()
             return retrofit.create(foropacoTemasGet::class.java)
         }

@@ -7,10 +7,7 @@ import android.view.View
 import android.widget.Toast
 import net.azarquiel.foropaco.api.foropacoTemasGet
 import net.azarquiel.foropaco.api.foropacoUsersGet
-import net.azarquiel.foropaco.model.Temas
-import net.azarquiel.foropaco.model.Themes
-import net.azarquiel.foropaco.model.Users
-import net.azarquiel.foropaco.model.Usuarios
+import net.azarquiel.foropaco.model.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
@@ -20,8 +17,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         val TAG="**Darkness**"
     }
-    private lateinit var UsuariosGET:ArrayList<Users>
-    private lateinit var ThemesGET:ArrayList<Temas>
+    private lateinit var UsuariosGET:ArrayList<Usuario>
+    private lateinit var ThemesGET:ArrayList<Tema>
     private val foroPacoUsersGet by lazy{
         foropacoUsersGet.create()
     }
@@ -39,7 +36,8 @@ class MainActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { themmes ->
-                            this.ThemesGET = themmes.themes.temas as ArrayList<Temas>
+                            this.ThemesGET = themmes.themes.temas as ArrayList<Tema>
+
                             showTemas()
                         },
                         { error ->
@@ -50,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun showTemas(){
         Log.d(TAG,"temas")
-        Log.d(TAG,ThemesGET.get(0).temas[0].toString())
+        Log.d(TAG,ThemesGET.get(0)._id)
         Log.d(TAG,ThemesGET.get(ThemesGET.size-1).toString())
     }
 }
