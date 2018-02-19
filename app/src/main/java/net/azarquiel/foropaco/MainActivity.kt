@@ -3,42 +3,35 @@ package net.azarquiel.foropaco
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import net.azarquiel.foropaco.api.foropacoTemasGet
-import net.azarquiel.foropaco.api.foropacoUsersGet
+import net.azarquiel.foropaco.api.apiServiceGet
 import net.azarquiel.foropaco.model.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.util.*
+
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     companion object {
         val TAG="**Darkness**"
     }
-    private lateinit var UsuariosGET:ArrayList<Usuario>
-    private lateinit var ThemesGET:ArrayList<Tema>
-    private val foroPacoUsersGet by lazy{
-        foropacoUsersGet.create()
-    }
+    private lateinit var Temas:ArrayList<Tema>
     private val foroPacoThemesGet by lazy {
-        foropacoTemasGet.create()
+        apiServiceGet.create()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        loadThemes()
+        loadUsers()
     }
-    private fun loadThemes(){
+    private fun loadUsers(){
         foroPacoThemesGet.getData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { themmes ->
-                            this.ThemesGET = themmes.themes.temas as ArrayList<Tema>
+                        { respuesta ->
+                            Log.d(TAG,respuesta.users.toString())
 
-                            showTemas()
                         },
                         { error ->
                             Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
@@ -48,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun showTemas(){
         Log.d(TAG,"temas")
-        Log.d(TAG,ThemesGET.get(0)._id)
-        Log.d(TAG,ThemesGET.get(ThemesGET.size-1).toString())
+        Log.d(TAG,Temas.get(0)._id)
+        Log.d(TAG,Temas.get(Temas.size-1).toString())
     }
 }
